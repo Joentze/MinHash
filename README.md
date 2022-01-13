@@ -1,2 +1,2 @@
 # MinHash
-MinHash algorithm to similar text
+MinHash algorithm to compare texts
