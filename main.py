@@ -1,5 +1,5 @@
 import random
-
+from data import TEST_DATA
 def jaccard(x, y):
     return len(x.intersection(y))/len(x.union(y))
 
@@ -8,19 +8,20 @@ class MinHash:
     def __init__(self, texts:list, k:int):
         self.texts = texts
         self.k = k
-        self.vocab = self.get_vocab(self.texts)
+        self.shing_k = 2
+        self.vocab = self.get_vocab()
 
     def shingle(self, text:str):
-        shingle_list = {}
-        for i in range(len(text.strip().replace('\n',''))-self.k+1):
-            shingle_list.add(text[i:i+self.k])
+        shingle_list = []
+        for i in range(len(text.strip().replace('\n',''))-self.shing_k+1):
+            shingle_list.append(text[i:i+self.shing_k])
         return shingle_list
 
     def get_one_hot(self, shingle_text:list):
         return [1 if i in shingle_text else 0 for i in self.vocab]
 
     def get_vocab(self):
-        this_set = {}
+        this_set = set()
         for text in self.texts:
             shingle = self.shingle(text)
             this_set.union(shingle)
@@ -39,3 +40,6 @@ class MinHash:
                 else:
                     continue
         return set(signature_list)
+
+#min_hash =  MinHash(TEST_DATA['articles'], 100)
+#print(min_hash.shingle(min_hash.texts[0]))
